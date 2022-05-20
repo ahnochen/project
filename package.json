@@ -1,0 +1,24 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahnochen/project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahnochen/project/issues"
+  },
+  "homepage": "https://github.com/ahnochen/project#readme",
+  "dependencies": {
+    "aws-cdk-lib": "^2.24.1",
+    "constructs": "^10.1.12"
+  }
+}
