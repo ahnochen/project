@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/ahnochen/project#readme",
   "dependencies": {
+    "@softchef/cdk-restapi": "^2.0.93",
     "aws-cdk-lib": "^2.24.1",
-    "constructs": "^10.1.12"
+    "constructs": "^10.1.12",
+    "path": "^0.12.7"
   }
 }
