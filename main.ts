@@ -1,5 +1,5 @@
-import * as cdk from "aws-cdk-lib";
 import * as path from "path";
+import * as cdk from "aws-cdk-lib";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
@@ -10,6 +10,11 @@ export interface TestAppStackProps extends cdk.NestedStackProps {
   readonly authorizationType?: apigateway.AuthorizationType;
   readonly authorizer?: apigateway.IAuthorizer | undefined;
 }
+
+const {
+  CDK_DEPLOY_ACCOUNT,
+  CDK_DEPLOY_REGION,
+} = process.env;
 
 const LAMBDA_ASSETS_PATH = path.resolve(__dirname, "./lambda");
 
@@ -46,7 +51,10 @@ export class projectServiceStack extends cdk.Stack {
       new iam.Policy(this, "TestFunctionPolicy", {
         statements: [
           new iam.PolicyStatement({
-            actions: ["execute-api:Invoke", "execute-api:ManageConnections"],
+            actions: [
+              "execute-api:Invoke",
+              "execute-api:ManageConnections"
+            ],
             resources: ["*"],
           }),
         ],
@@ -67,12 +75,9 @@ const app = new cdk.App();
 
 new ProjectServiceApp(app, "ProjectServiceApp-dev", {
   env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION,
+    account: CDK_DEPLOY_ACCOUNT,
+    region: CDK_DEPLOY_REGION,
   },
 });
-
 app.synth();
-// const app = new cdk.App();
-// new projectServiceStack(app, "projectServiceStack");
-// app.synth();
+
