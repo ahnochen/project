@@ -74,7 +74,7 @@ export class projectServiceStack extends cdk.Stack {
       entry: `${LAMBDA_ASSETS_PATH}/apple/app.ts`,
     });
     appleFunction.role?.attachInlinePolicy(
-      new iam.Policy(this, "TestFunctionPolicy", {
+      new iam.Policy(this, "AppleFunctionPolicy", {
         statements: [
           new iam.PolicyStatement({
             actions: [
