@@ -11,10 +11,10 @@ export interface TestAppStackProps extends cdk.NestedStackProps {
   readonly authorizer?: apigateway.IAuthorizer | undefined;
 }
 
-const {
-  CDK_DEPLOY_ACCOUNT,
-  CDK_DEPLOY_REGION,
-} = process.env;
+// const {
+//   CDK_DEPLOY_ACCOUNT,
+//   CDK_DEPLOY_REGION,
+// } = process.env;
 
 const LAMBDA_ASSETS_PATH = path.resolve(__dirname, "./lambda");
 
@@ -35,6 +35,13 @@ export class projectServiceStack extends cdk.Stack {
           path: "/test",
           httpMethod: HttpMethod.GET,
           lambdaFunction: this.createTestFunction(),
+          authorizationType: apigateway.AuthorizationType.IAM,
+        },
+        {
+          // test
+          path: "/apple",
+          httpMethod: HttpMethod.GET,
+          lambdaFunction: this.createAppleFunction(),
           authorizationType: apigateway.AuthorizationType.IAM,
         },
       ],
@@ -62,6 +69,25 @@ export class projectServiceStack extends cdk.Stack {
     );
     return testFunction;
   }
+  private createAppleFunction(): lambdaNodejs.NodejsFunction {
+    const appleFunction = new lambdaNodejs.NodejsFunction(this, "appleFunction", {
+      entry: `${LAMBDA_ASSETS_PATH}/apple/app.ts`,
+    });
+    appleFunction.role?.attachInlinePolicy(
+      new iam.Policy(this, "TestFunctionPolicy", {
+        statements: [
+          new iam.PolicyStatement({
+            actions: [
+              "execute-api:Invoke",
+              "execute-api:ManageConnections"
+            ],
+            resources: ["*"],
+          }),
+        ],
+      })
+    );
+    return appleFunction;
+  }
 }
 
 export class ProjectServiceApp extends cdk.Stack {
@@ -73,11 +99,6 @@ export class ProjectServiceApp extends cdk.Stack {
 
 const app = new cdk.App();
 
-new ProjectServiceApp(app, "ProjectServiceApp-dev", {
-  env: {
-    account: CDK_DEPLOY_ACCOUNT,
-    region: CDK_DEPLOY_REGION,
-  },
-});
+new ProjectServiceApp(app, "ProjectServiceApp-dev");
 app.synth();
 
