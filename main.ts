@@ -100,7 +100,7 @@ export class ProjectServiceApp extends cdk.Stack {
 const app = new cdk.App();
 
 new ProjectServiceApp(app, "ProjectServiceApp-dev", {
-  stackName: process.env.STACK_NAME,
+  stackName: process.env.STACKNAME,
 });
 app.synth();
 
