@@ -74,10 +74,7 @@ export class ProjectServiceApp extends cdk.Stack {
 const app = new cdk.App();
 
 new ProjectServiceApp(app, "ProjectServiceApp-dev", {
-  env: {
-    account: CDK_DEPLOY_ACCOUNT,
-    region: CDK_DEPLOY_REGION,
-  },
+  stackName: process.env.STACKNAME,
 });
 app.synth();
 
