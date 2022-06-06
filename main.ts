@@ -90,10 +90,12 @@ export class projectServiceStack extends cdk.Stack {
   }
 }
 
+const stackName = process.env.STACK_NAME || "projectServiceStack";
+
 export class ProjectServiceApp extends cdk.Stack {
   constructor(scope: Construct, id: string, props: cdk.StackProps = {}) {
     super(scope, id, props);
-    new projectServiceStack(this, "projectServiceStack");
+    new projectServiceStack(this, stackName);
   }
 }
 
